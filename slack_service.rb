@@ -30,5 +30,3 @@ class SlackService
     end
   end
 end
-
-SlackService.new.send_msg("HEY, I'M THE UPS SLACK BOT")
