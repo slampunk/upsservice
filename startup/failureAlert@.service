@@ -1,0 +1,7 @@
+[Unit]
+Description=Unit failure status mailer
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/path/to/mailer/script "%i entered fail state" "Please deal with this asap"

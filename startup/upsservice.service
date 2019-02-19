@@ -1,0 +1,12 @@
+[Unit]
+Description=UPS informationl service for slack
+OnFailure=failureAlert@n.service
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/path/to/file
+ExecStart=/usr/bin/ruby /path/to/file/ups_socket.rb
+
+[Install]
+WantedBy=multi-user.target
