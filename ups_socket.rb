@@ -1,4 +1,5 @@
 require 'socket'
+require_relative 'slack_service'
 
 class UPSDevice
   attr_reader :name, :server
@@ -14,6 +15,7 @@ class UPSDevice
     File.delete SOCKET_PATH if File.exists?(SOCKET_PATH) && !is_in_use?(SOCKET_PATH)
     @server = UNIXServer.open(SOCKET_PATH)
 
+    @slack_service = SlackService.new
     listen_unix_socket
   end
 
@@ -26,10 +28,15 @@ class UPSDevice
         when "PING"
           client.puts "PONG"
         when "ONBATTERY"
+          ups_info = get_ups_info
+          msg = "Power is OUT!!! battery level: #{ups_info['battery.charge']}"
+          @slackService.send_msg(msg)
           # send message that power is out
           # optionally send battery levels
           # optionally shut down Sonos? TV? (TV assuming that the power outlets on the UPS itself can be switched off)
         when "ONLINE"
+          msg = "Power is restored! Keep on being your awesome selves"
+          @slackService.send_msg(msg)
           # send message that power is restored
         when "BATTERYLEVEL"
           # perhaps there's a way to intercept events for batt levels?
@@ -57,6 +64,12 @@ class UPSDevice
     rescue
       return false
     end
+  end
+
+  def get_ups_info
+    `upsc eaton`
+      .split("\n")
+      .map { |line| line.split(": ") }.to_h
   end
 end
 
