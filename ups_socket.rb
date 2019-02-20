@@ -18,7 +18,7 @@ class UPSDevice
   end
 
   def listen_unix_socket
-    puts "listening on socket..."
+    puts "listening on socket #{SOCKET_PATH}"
     while !@stop_server_msg do
       client = @server.accept
 
