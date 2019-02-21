@@ -29,7 +29,7 @@ class UPSDevice
           client.puts "PONG"
         when "ONBATTERY"
           ups_info = get_ups_info
-          msg = "Power is OUT!!! battery level: #{ups_info['battery.charge']}"
+          msg = "Power is OUT!!! battery level: #{ups_info['battery.charge']}%"
           @slack_service.send_msg(msg)
           # send message that power is out
           # optionally send battery levels
@@ -41,8 +41,12 @@ class UPSDevice
         when "BATTERYLEVEL"
           # perhaps there's a way to intercept events for batt levels?
         when "LOWBATTERY"
+          msg = "UPS is low on battery and will be shutting down soon. Its a good idea to save/push all your work now"
+          @slack_service.send_msg(msg)
           # send message that battery will run out soon
         when "REPLACEBATTERY"
+          msg = "*UPS battery is in need of replacement.* Here are a few contact details:```Eaton Wadeville head office\ntel: 011 824-7400\nemail: infosouthafrica@eaton.com\n\nEaton Epping\ntel:021 531 5852\nemail: capetown@eaton.com```"
+          @slack_service.send_msg(msg)
           # send message that battery needs to be replaced
         when "SHUTDOWN"
           # do we need to shutdown the ups service?
