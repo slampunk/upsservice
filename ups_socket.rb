@@ -30,13 +30,13 @@ class UPSDevice
         when "ONBATTERY"
           ups_info = get_ups_info
           msg = "Power is OUT!!! battery level: #{ups_info['battery.charge']}"
-          @slackService.send_msg(msg)
+          @slack_service.send_msg(msg)
           # send message that power is out
           # optionally send battery levels
           # optionally shut down Sonos? TV? (TV assuming that the power outlets on the UPS itself can be switched off)
         when "ONLINE"
           msg = "Power is restored! Keep on being your awesome selves"
-          @slackService.send_msg(msg)
+          @slack_service.send_msg(msg)
           # send message that power is restored
         when "BATTERYLEVEL"
           # perhaps there's a way to intercept events for batt levels?
