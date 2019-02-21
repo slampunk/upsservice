@@ -12,7 +12,7 @@ fi
 
 if [ "$NOTIFYTYPE" = "LOWBATT" ]
 then
-  echo "ONBATTERY" | socat - UNIX-CONNECT:/tmp/ups.sock
+  echo "LOWBATTERY" | socat - UNIX-CONNECT:/tmp/ups.sock
 fi
 
 if [ "$NOTIFYTYPE" = "REPLBATT" ]
